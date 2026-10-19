@@ -16,7 +16,7 @@
 
 ## 🌐 语言与翻译支持
 
-我们正在使用 Weblate 平台翻译 Zalith Launcher 2，欢迎您前往我们的 [Weblate 项目](https://hosted.weblate.org/projects/zalithlauncher2) 参与翻译！  
+我们正在使用 Weblate 平台翻译 Dant Launcher ，欢迎您前往我们的 [Weblate 项目](https://hosted.weblate.org/projects/zalithlauncher2) 参与翻译！  
 感谢每一位语言贡献者的支持，让 Zalith Launcher 2 更加多语、更加全球化！
 
 
@@ -37,7 +37,7 @@
 ### 构建步骤
 
 ```bash
-git clone git@github.com:ZalithLauncher/ZalithLauncher2.git
+git clone git@github.com:DantLauncher/DantLauncher.git
 # 使用 Android Studio 打开项目并进行构建
 ```
 
@@ -50,8 +50,8 @@ git clone git@github.com:ZalithLauncher/ZalithLauncher2.git
 
 ### 附加条款 (依据 GPLv3 开源协议第七条)  
 
-1. 当你分发该程序的修改版本时，你必须以合理方式修改该程序的名称或版本号，以示其与原始版本不同。(依据 [GPLv3, 7(c)](https://github.com/ZalithLauncher/ZalithLauncher2/blob/969827b/LICENSE#L372-L374))
-   - 修改版本 **不得在名称中包含原程序名称 “ZalithLauncher” 或其缩写 “ZL”，也不得使用与官方名称相近、可能导致混淆的名称**。
+1. 当你分发该程序的修改版本时，你必须以合理方式修改该程序的名称或版本号，以示其与原始版本不同。(依据 [GPLv3, 7(c)](https://github.com/DantLauncherr/DantLauncher/blob/969827b/LICENSE#L372-L374))
+   - 修改版本 **不得在名称中包含原程序名称 “DantLauncher” 或其缩写 “ZL”，也不得使用与官方名称相近、可能导致混淆的名称**。
    - 所有修改版本 **必须在程序启动页面或主界面中以明显方式标注其为“非官方修改版”**。
    - 该程序的应用名称可在 [gradle.properties](./ZalithLauncher/gradle.properties) 中修改。
 
