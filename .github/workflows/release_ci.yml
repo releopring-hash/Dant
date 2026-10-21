@@ -1,65 +1,37 @@
-name: Android CI
+
+name: Build Dant APK Release
 
 on:
-  release:
-    types:
-      - published
+  workflow_dispatch:
+  push:
+    tags:
+      - 'v*'
 
 permissions:
   contents: write
 
 jobs:
-  Build:
-    uses: ./.github/workflows/build.yml
-    with:
-      variant: Release
-    secrets:
-      KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-      STORE_PASSWORD: ${{ secrets.STORE_PASSWORD }}
-      OAUTH_CLIENT_ID: ${{ secrets.OAUTH_CLIENT_ID }}
-      CURSEFORGE_API_KEY: ${{ secrets.CURSEFORGE_API_KEY }}
-
-  Upload-to-Release:
-    needs: Build
+  build:
     runs-on: ubuntu-latest
-    if: success()
 
     steps:
-      - name: Download Files
-        uses: actions/download-artifact@v8
-        with:
-          path: ./artifacts
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Organize Artifacts
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Build APK
         run: |
-          mkdir -p ./apks
+          chmod +x gradlew
+          ./gradlew assembleDebug
 
-          find ./artifacts -name "*.apk" -type f -exec cp {} ./apks/ \;
-
-          echo "Found $(ls ./apks/ | wc -l) APK file(s)"
-
-          mkdir -p ./mappings
-          version="${GITHUB_REF_NAME#v}"
-          for dir in ./artifacts/mapping*; do
-            [ -d "$dir" ] || continue
-            arch="${dir##*mapping \(}"
-            arch="${arch%\)}"
-            case "$arch" in
-              all) abi="" ;;
-              arm) abi="armeabi-v7a" ;;
-              arm64) abi="arm64-v8a" ;;
-              *) abi="$arch" ;;
-            esac
-            cp "$dir/mapping.txt" "./mappings/ZalithLauncher-mapping-${version}${abi:+-$abi}.txt"
-          done
-
-          echo "Found $(ls ./mappings/ | wc -l) mapping file(s)"
-
-      - name: Upload To Release
-        uses: softprops/action-gh-release@v3
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
         with:
-          tag_name: ${{ github.event.release.tag_name }}
-          files: |
-            ./apks/*.apk
-            ./mappings/*.txt
-          fail_on_unmatched_files: true
+          name: Dant-Launcher-APK
+          path: '**/build/outputs/apk/debug/*.apk'
+          if-no-files-found: error
